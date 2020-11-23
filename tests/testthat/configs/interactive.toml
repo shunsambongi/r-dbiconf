@@ -1,0 +1,25 @@
+[template.one]
+_driver = "RSQLite::SQLite"
+
+
+[database.one]
+_template = "one"
+dbname = { interactive = true }
+
+[database.two]
+_template = "one"
+dbname = { interactive = { prompt = "DBNAME: " } }
+
+[database.three]
+_template = "one"
+
+    [database.three.dbname.interactive]
+    prompt = "DBNAME: "
+    secret = true
+
+[database.four]
+_template = "one"
+
+    [database.four.dbname.interactive]
+    prompt = "DBNAME: "
+    secret = false

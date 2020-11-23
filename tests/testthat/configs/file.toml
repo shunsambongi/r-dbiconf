@@ -1,0 +1,19 @@
+[template.one]
+_driver = "RSQLite::SQLite"
+
+
+[database.one]
+_template = "one"
+dbname = { file = "test.txt" }
+
+[database.two]
+_template = "one"
+dbname = { file = { path = "test.txt" } }
+
+[database.three]
+_template = "one"
+dbname = { file = { path = "test.txt", trim = true } }
+
+[database.four]
+_template = "one"
+dbname = { file = { path = "test.txt", trim = false } }

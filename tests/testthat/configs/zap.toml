@@ -1,0 +1,7 @@
+[template.one]
+_driver = "RSQLite::SQLite"
+dbname = ":memory:"
+
+[database.one]
+_template = "one"
+dbname = { zap = true }

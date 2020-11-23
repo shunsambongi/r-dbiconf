@@ -1,0 +1,9 @@
+[database.one]
+_driver = "RSQLite::SQLite"
+dbname = { custom = ":memory:" }
+
+[database.two]
+_driver = "RSQLite::SQLite"
+
+  [database.two.dbname.nested.nested]
+  value = ":memory:"

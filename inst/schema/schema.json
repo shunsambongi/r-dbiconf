@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+
+  "type": "object",
+  "properties": {
+    "database": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/database"
+      }
+    },
+
+    "template": {
+      "type": "object",
+      "additionalProperties": {
+        "allOf": [
+          { "$ref": "#/definitions/database" },
+          {
+            "type": "object",
+            "properties": { ".template": false }
+          }
+        ]
+      }
+    }
+  },
+
+  "definitions": {
+    "database": {
+      "type": "object",
+      "properties": {
+        "_driver": { "type": "string", "pattern": "^[^:]+::[^:]+$" },
+        "_template": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": {
+        "oneOf": [
+          { "type": ["boolean", "integer", "number", "string"] },
+          { "$ref": "#/definitions/loader" }
+        ]
+      }
+    },
+
+    "loader": {
+      "type": "object",
+      "maxProperties": 1,
+      "minProperties": 1,
+      "properties": {
+        "envvar": { "$ref": "#/definitions/loaderEnvvar" },
+        "file": { "$ref": "#/definitions/loaderFile" },
+        "interactive": { "$ref": "#/definitions/loaderInteractive" },
+        "keyring": { "$ref": "#/definitions/loaderKeyring" },
+        "zap": { "$ref": "#/definitions/loaderZap" }
+      }
+    },
+
+    "loaderEnvvar": {
+      "oneOf": [
+        { "$ref": "#/definitions/nonEmptyString" },
+        {
+          "type": "object",
+          "required": ["x"],
+          "additionalProperties": false,
+          "properties": {
+            "x": { "$ref": "#/definitions/nonEmptyString" },
+            "unset": { "$ref": "#/definitions/nonEmptyString" }
+          }
+        }
+      ]
+    },
+
+    "loaderFile": {
+      "oneOf": [
+        { "$ref": "#/definitions/nonEmptyString" },
+        {
+          "type": "object",
+          "required": ["path"],
+          "additionalProperties": false,
+          "properties": {
+            "path": { "$ref": "#/definitions/nonEmptyString" },
+            "trim": { "type": "boolean", "default": true }
+          }
+        }
+      ]
+
+    },
+
+    "loaderInteractive": {
+      "oneOf": [
+        { "const": true },
+        {
+          "type": "object",
+          "properties": {
+            "prompt": { "$ref": "#/definitions/nonEmptyString" },
+            "secret": { "type": "boolean", "default": true }
+          }
+        }
+      ]
+    },
+
+    "loaderKeyring": {
+      "oneOf": [
+        { "$ref": "#/definitions/nonEmptyString" },
+        {
+          "type": "object",
+          "required": ["service"],
+          "additionalProperties": false,
+          "properties": {
+            "service": { "$ref": "#/definitions/nonEmptyString" },
+            "username": { "$ref": "#/definitions/nonEmptyString" },
+            "keyring": { "$ref": "#/definitions/nonEmptyString" }
+          }
+        }
+      ]
+    },
+
+    "loaderZap": {
+      "const": true
+    },
+
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

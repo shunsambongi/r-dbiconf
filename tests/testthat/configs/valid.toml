@@ -1,0 +1,29 @@
+[template.one]
+_driver = "RSQLite::SQLite"
+dbname = ":memory:"
+
+[template.two]
+_driver = "RSQLite::SQLite"
+
+[template.three]
+_driver = "RSQLite::SQLite"
+dbname = { envvar = "TEST" }
+
+
+[database.one]
+_driver = "RSQLite::SQLite"
+dbname = ":memory:"
+
+[database.two]
+_template = "one"
+
+[database.three]
+_template = "one"
+dbname = ""
+
+[database.four]
+_template = "two"
+dbname = ":memory:"
+
+[database.five]
+_template = "three"

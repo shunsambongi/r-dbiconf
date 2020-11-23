@@ -1,0 +1,27 @@
+[template.one]
+_driver = "RSQLite::SQLite"
+
+
+[database.one]
+_template = "one"
+dbname = { keyring = "test" }
+
+[database.two]
+_template = "one"
+dbname = { keyring = { service = "test" } }
+
+[database.three]
+_template = "one"
+dbname = { keyring = { service = "test", username = "test" } }
+
+[database.four]
+_template = "one"
+dbname = { keyring = { service = "test", keyring = "test" } }
+
+[database.five]
+_template = "one"
+
+    [database.five.dbname.keyring]
+    service = "test"
+    username = "test"
+    keyring = "test"
