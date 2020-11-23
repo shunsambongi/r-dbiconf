@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+
+  "type": "object",
+  "properties": {
+    "database": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/database"
+      }
+    },
+
+    "template": {
+      "type": "object",
+      "additionalProperties": {
+        "allOf": [
+          { "$ref": "#/definitions/database" },
+          {
+            "type": "object",
+            "properties": { ".template": false }
+          }
+        ]
+      }
+    }
+  },
+
+  "definitions": {
+    "database": {
+      "type": "object",
+      "properties": {
+        "_driver": { "type": "string", "pattern": "^[^:]+::[^:]+$" },
+        "_template": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": {
+        "oneOf": [
+          { "type": ["boolean", "integer", "number", "string"] },
+          { "$ref": "#/definitions/loader" }
+        ]
+      }
+    },
+
+    "loader": {
+      "type": "object",
+      "maxProperties": 1,
+      "minProperties": 1
+    }
+  }
+}

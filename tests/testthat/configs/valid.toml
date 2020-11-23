@@ -1,0 +1,33 @@
+[template.one]
+_driver = "RSQLite::SQLite"
+dbname = ":memory:"
+
+[template.two]
+_driver = "RSQLite::SQLite"
+dbname = { interactive = true }
+
+[database.one]
+_template = "one"
+
+[database.two]
+_template = "one"
+dbname = ""
+
+[database.three]
+_driver = "RSQLite::SQLite"
+dbname = { envvar = "test" }
+
+[database.four]
+_driver = "RSQLite::SQLite"
+dbname = { envvar = { x = "test", unset = "test.db" } }
+
+[database.five]
+_driver = "RSQLite::SQLite"
+dbname = { interactive = "Please enter the database file:" }
+
+[database.six]
+_template = "two"
+
+[database.seven]
+_template = "two"
+dbname = ":memory:"

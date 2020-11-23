@@ -1,0 +1,30 @@
+Package: dbiconf
+Title: DBI Configuration
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Shun",
+           family = "Sambongi",
+           role = c("aut", "cre"),
+           email = "shundev3@gmail.com")
+Description: Specify DBI connection parameters in a
+    configuration file. Parameters can be loaded dynamically at run time
+    from multiple locations.
+License: MIT + file LICENSE
+Imports: 
+    DBI,
+    jsonlite,
+    jsonvalidate,
+    methods,
+    purrr,
+    RcppTOML,
+    rlang
+Suggests: 
+    askpass,
+    fs,
+    keyring,
+    readr,
+    testthat
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
