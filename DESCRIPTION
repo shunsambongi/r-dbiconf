@@ -22,8 +22,11 @@ Suggests:
     askpass,
     fs,
     keyring,
-    readr,
-    testthat
+    brio,
+    testthat,
+    rstudioapi,
+    mockery,
+    mockr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

@@ -4,7 +4,9 @@ parse_database <- function(database, name, templates) {
     database <- merge_params(database, template)
     driver <- get_driver(database)
     conn_args <- get_conn_args(database)
-    methods::new("DBIConnector", .drv = driver, .conn_args = conn_args)
+    methods::new(
+      "dbiconf_database", .name = name, .drv = driver, .conn_args = conn_args
+    )
   }), error = function(e) {
     message <- paste0(
       "Error while parsing database: `", name, "`\n", conditionMessage(e)
@@ -47,9 +49,6 @@ get_conn_args <- function(database) {
     if (!is.list(arg)) {
       return(arg)
     }
-    loader <- new_loader(arg, name)
-    function() {
-      load_arg(loader = loader)
-    }
+    new_loader_wrapper(arg, name)
   })
 }

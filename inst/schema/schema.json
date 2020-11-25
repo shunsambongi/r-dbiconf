@@ -42,7 +42,79 @@
     "loader": {
       "type": "object",
       "maxProperties": 1,
-      "minProperties": 1
+      "minProperties": 1,
+      "additionalProperties": false,
+      "properties": {
+        "envvar": { "$ref": "#/definitions/loaderEnvvar" },
+        "file": { "$ref": "#/definitions/loaderFile" },
+        "interactive": { "$ref": "#/definitions/loaderInteractive" },
+        "keyring": { "$ref": "#/definitions/loaderKeyring" }
+      }
+    },
+
+    "loaderEnvvar": {
+      "oneOf": [
+        { "$ref": "#/definitions/nonEmptyString" },
+        {
+          "type": "object",
+          "required": ["x"],
+          "additionalProperties": false,
+          "properties": {
+            "x": { "$ref": "#/definitions/nonEmptyString" },
+            "unset": { "$ref": "#/definitions/nonEmptyString" }
+          }
+        }
+      ]
+    },
+
+    "loaderFile": {
+      "oneOf": [
+        { "$ref": "#/definitions/nonEmptyString" },
+        {
+          "type": "object",
+          "required": ["path"],
+          "additionalProperties": false,
+          "properties": {
+            "path": { "$ref": "#/definitions/nonEmptyString" },
+            "trim": { "type": "boolean", "default": true }
+          }
+        }
+      ]
+
+    },
+
+    "loaderInteractive": {
+      "oneOf": [
+        { "const": true },
+        {
+          "type": "object",
+          "properties": {
+            "prompt": { "$ref": "#/definitions/nonEmptyString" },
+            "secret": { "type": "boolean", "default": true }
+          }
+        }
+      ]
+    },
+    
+    "loaderKeyring": {
+      "oneOf": [
+        { "$ref": "#/definitions/nonEmptyString" },
+        {
+          "type": "object",
+          "required": ["service"],
+          "additionalProperties": false,
+          "properties": {
+            "service": { "$ref": "#/definitions/nonEmptyString" },
+            "username": { "$ref": "#/definitions/nonEmptyString" },
+            "keyring": { "$ref": "#/definitions/nonEmptyString" }
+          }
+        }
+      ]
+    },
+
+    "nonEmptyString": {
+      "type": "string", 
+      "minLength": 1
     }
   }
 }

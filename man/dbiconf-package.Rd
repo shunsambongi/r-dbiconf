@@ -4,9 +4,19 @@
 \name{dbiconf-package}
 \alias{dbiconf}
 \alias{dbiconf-package}
-\title{dbiconf: What the Package Does (One Line, Title Case)}
+\title{dbiconf: DBI Configuration}
 \description{
-What the package does (one paragraph).
+Specify DBI connection parameters in a
+    configuration file. Parameters can be loaded dynamically at run time
+    from multiple locations.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/shunsambongi/dbiconf}
+  \item Report bugs at \url{https://github.com/shunsambongi/dbiconf/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Shun Sambongi \email{shundev3@gmail.com}

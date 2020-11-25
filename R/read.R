@@ -1,9 +1,9 @@
-#' Read connectors
+#' Read databases from config
 #'
 #' @param file Path to configuration file.
 #' @return A named list of DBIConnectors specified in the configuration file.
 #' @export
-read_connectors <- function(file) {
+read_databases <- function(file) {
   config <- read_config(file)
   validate_config(config)
   databases <- purrr::pluck(config, "database", .default = list())
