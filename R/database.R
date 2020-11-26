@@ -14,7 +14,7 @@ methods::setValidity("dbiconf_database", function(object) {
 })
 
 methods::setMethod("show", "dbiconf_database", function(object) {
-  cat(sprintf("[database.%s]\n", format_toml_key(object@.name)))
+  cat(sprintf("[database.%s]\n", crayon::bold(format_toml_key(object@.name))))
 
   drv <- object@.drv
   if (methods::is(drv, "dbiconf_driver")) {
@@ -22,15 +22,16 @@ methods::setMethod("show", "dbiconf_database", function(object) {
   } else {
     drv <- format(drv)
   }
-  cat("_driver = ", drv, "\n", sep = "")
+  cat(crayon::magenta("_driver"), " = ", drv, "\n", sep = "")
 
   args <- object@.conn_args
   if (rlang::is_empty(args)) {
     return()
   }
+
   nms <- rlang::names2(args)
   vals <- purrr::map(args, format_database_param)
-  cat(paste0(nms, " = ", vals, collapse = "\n"), "\n", sep = "")
+  cat(paste0(crayon::cyan(nms), " = ", vals, collapse = "\n"), "\n", sep = "")
 })
 
 format_database_param <- function(x) {
