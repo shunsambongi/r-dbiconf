@@ -18,7 +18,12 @@ methods::setMethod("show", "dbiconf_database", function(object) {
 
   drv <- object@.drv
   if (methods::is(drv, "dbiconf_driver")) {
+    template <- attr(drv@driver, "template", exact = TRUE)
     drv <- format_toml(drv@driver)
+    if (!is.null(template)) {
+      template <- format_toml_key(template)
+      drv <- paste(drv, crayon::silver(sprintf("[template.%s]", template)))
+    }
   } else {
     drv <- format(drv)
   }
@@ -38,7 +43,7 @@ methods::setMethod("show", "dbiconf_database", function(object) {
     }
     out
   })
-  cat(paste0(nms, " = ", vals, collapse = "\n"))
+  cat(paste0(nms, " = ", vals, collapse = "\n"), "\n", sep = "")
 })
 
 database_args <- function(database) {
