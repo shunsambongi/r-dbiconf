@@ -18,12 +18,7 @@ methods::setMethod("show", "dbiconf_database", function(object) {
 
   drv <- object@.drv
   if (methods::is(drv, "dbiconf_driver")) {
-    template <- attr(drv@driver, "template", exact = TRUE)
-    drv <- format_toml(drv@driver)
-    if (!is.null(template)) {
-      template <- format_toml_key(template)
-      drv <- paste(drv, crayon::silver(sprintf("[template.%s]", template)))
-    }
+    drv <- format_database_param(drv@driver)
   } else {
     drv <- format(drv)
   }
@@ -34,17 +29,19 @@ methods::setMethod("show", "dbiconf_database", function(object) {
     return()
   }
   nms <- rlang::names2(args)
-  vals <- purrr::map(args, function(arg) {
-    out <- format_toml(arg)
-    template <- attr(arg, "template", exact = TRUE)
-    if (!is.null(template)) {
-      template <- format_toml_key(template)
-      out <- paste(out, crayon::silver(sprintf("[template.%s]", template)))
-    }
-    out
-  })
+  vals <- purrr::map(args, format_database_param)
   cat(paste0(nms, " = ", vals, collapse = "\n"), "\n", sep = "")
 })
+
+format_database_param <- function(x) {
+  out <- format_toml(x)
+  template <- attr(x, "template", exact = TRUE)
+  if (!is.null(template)) {
+    template <- format_toml_key(template)
+    out <- paste(out, crayon::silver(sprintf("# [template.%s]", template)))
+  }
+  out
+}
 
 database_args <- function(database) {
   purrr::map_if(database@.conn_args, rlang::is_function, rlang::exec)
