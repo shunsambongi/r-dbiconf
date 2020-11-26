@@ -23,7 +23,8 @@ is_loader <- function(x) {
 
 #' @export
 format.dbiconf_loader <- function(x, ...) {
-  sprintf("<loader: %s>", attr(x, "type"))
+  # sprintf("<loader: %s>", attr(x, "type"))
+  format_toml(rlang::set_names(list(unclass(x)), attr(x, "type")))
 }
 
 #' @export
@@ -41,14 +42,14 @@ load_arg <- function(loader) {
   UseMethod("load_arg")
 }
 
+load_arg_ <- function(loader) {
+  load_arg(loader)
+}
+
 load_arg_default <- function(loader, fn) {
   if (rlang::is_string(loader)) {
     fn(loader)
   } else {
     rlang::exec(fn, !!!loader)
   }
-}
-
-load_arg_ <- function(loader) {
-  load_arg(loader)
 }

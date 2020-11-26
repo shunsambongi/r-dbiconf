@@ -9,6 +9,11 @@ test_that("interactive.yaml passes validation", {
   expect_error(validate_config(read_config(path)), NA)
 })
 
+test_that("envvar.yaml passes validation", {
+  path <- test_config_path("envvar.toml")
+  expect_error(validate_config(read_config(path)), NA)
+})
+
 test_that("file.yaml passes validation", {
   path <- test_config_path("file.toml")
   expect_error(validate_config(read_config(path)), NA)

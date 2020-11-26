@@ -8,6 +8,7 @@ load_arg.dbiconf_loader_interactive <- function(loader) {
   load_arg_interactive(name, prompt, secret)
 }
 
+
 load_arg_interactive <- function(name, prompt, secret) {
   if (isTRUE(secret)) {
     load_arg_interactive_secret(prompt)
