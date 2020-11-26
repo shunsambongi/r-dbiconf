@@ -1,6 +1,6 @@
 Package: dbiconf
 Title: DBI Configuration
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: 
     person(given = "Shun",
            family = "Sambongi",
@@ -10,6 +10,8 @@ Description: Specify DBI connection parameters in a
     configuration file. Parameters can be loaded dynamically at run time
     from multiple locations.
 License: MIT + file LICENSE
+URL: https://github.com/shunsambongi/dbiconf
+BugReports: https://github.com/shunsambongi/dbiconf/issues
 Imports: 
     DBI,
     jsonlite,
@@ -20,16 +22,14 @@ Imports:
     rlang
 Suggests: 
     askpass,
+    brio,
     fs,
     keyring,
-    brio,
-    testthat,
-    rstudioapi,
     mockery,
-    mockr
+    mockr,
+    rstudioapi,
+    testthat
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-URL: https://github.com/shunsambongi/dbiconf
-BugReports: https://github.com/shunsambongi/dbiconf/issues

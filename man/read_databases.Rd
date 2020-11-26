@@ -4,13 +4,15 @@
 \alias{read_databases}
 \title{Read databases from config}
 \usage{
-read_databases(file)
+read_databases(file, ...)
 }
 \arguments{
 \item{file}{Path to configuration file.}
+
+\item{...}{Paths to additional configuration files to merge into \code{file}.}
 }
 \value{
-A named list of DBIConnectors specified in the configuration file.
+A named list of connectable databases specified in the configuration file.
 }
 \description{
 Read databases from config
