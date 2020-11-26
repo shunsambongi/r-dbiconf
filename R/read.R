@@ -12,13 +12,16 @@ read_databases <- function(file, ...) {
     config <- merge_config(config, other_config)
   }
   validate_config(config, validator)
-  databases <- purrr::pluck(config, "database", .default = list())
-  templates <- purrr::pluck(config, "template", .default = list())
+  databases <- purrr::pluck(config, "database", .default = named_list())
+  templates <- purrr::pluck(config, "template", .default = named_list())
   purrr::imap(databases, parse_database, templates)
 }
 
 read_config <- function(file) {
   out <- RcppTOML::parseTOML(input = file, fromFile = TRUE, escape = FALSE)
+  if (rlang::is_empty(out)) {
+    out <- named_list()
+  }
   if (rlang::has_name(out, "template")) {
     out$template <- purrr::imap(out$template, function(template, name) {
       purrr::map(template, function(template) {
@@ -50,13 +53,13 @@ load_config <- function(path, validator = create_validator()) {
 
 merge_config <- function(config, other) {
   database <- merge_list(
-    purrr::pluck(config, "database", .default = list()),
-    purrr::pluck(other, "database", .default = list())
+    purrr::pluck(config, "database", .default = named_list()),
+    purrr::pluck(other, "database", .default = named_list())
   )
 
   template <- merge_list(
-    purrr::pluck(config, "template", .default = list()),
-    purrr::pluck(other, "template", .default = list())
+    purrr::pluck(config, "template", .default = named_list()),
+    purrr::pluck(other, "template", .default = named_list())
   )
 
   list(database = database, template = template)

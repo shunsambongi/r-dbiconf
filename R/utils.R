@@ -15,3 +15,7 @@ assert_package <- function(package) {
 rstudioapi_is_available <- function() {
   has_package("rstudioapi") && rstudioapi::isAvailable()
 }
+
+named_list <- function() {
+  rlang::set_names(list(), character())
+}
