@@ -1,0 +1,14 @@
+[template.one]
+dbname = ":memory:"
+
+[database.one]
+_driver = "RSQLite::SQLite"
+
+[database.three]
+_driver = "duckdb::duckdb"
+
+[database.four]
+_template = "one"
+
+[database.five]
+dbname = { envvar = { x = "TEST", unset = ":memory:" } }

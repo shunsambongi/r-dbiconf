@@ -1,0 +1,16 @@
+[template.one]
+_driver = "RSQLite::SQLite"
+
+
+[database.one]
+dbname =  ""
+
+[database.two]
+_template = "one"
+
+[database.three]
+_driver = "RSQLite::SQLite"
+
+[database.five]
+_driver = "RSQLite::SQLite"
+dbname = { interactive = true }

@@ -2,7 +2,7 @@
 _driver = "RSQLite::SQLite"
 
 
-[database."asdf asdf"]
+[database.one]
 _template = "one"
 dbname = { interactive = true }
 
