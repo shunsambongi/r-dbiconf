@@ -6,15 +6,26 @@ new_loader <- function(loader, name) {
   )
   value <- loader[[type]]
   class = c(paste0("dbiconf_loader_", type), "dbiconf_loader")
-  structure(value, type = type, name = name, class = class)
+  structure(
+    value,
+    type = type,
+    name = name,
+    template = attr(loader, "template", exact = TRUE),
+    class = class
+  )
 }
 
 new_loader_wrapper <- function(loader, name) {
   loader <- new_loader(loader, name)
-  out <- function() {
+  wrapper <- function() {
     load_arg(loader)
   }
-  structure(out, loader = loader, class = c("dbiconf_loader_wrapper", "dbiconf_loader"))
+  structure(
+    wrapper,
+    loader = loader,
+    template = attr(loader, "template", exact = TRUE),
+    class = c("dbiconf_loader_wrapper", "dbiconf_loader")
+  )
 }
 
 is_loader <- function(x) {

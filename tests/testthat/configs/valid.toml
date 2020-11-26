@@ -5,6 +5,9 @@ dbname = ":memory:"
 [template.two]
 _driver = "RSQLite::SQLite"
 
+[template.three]
+_driver = "RSQLite::SQLite"
+dbname = { envvar = "TEST" }
 
 
 [database.one]
@@ -18,6 +21,9 @@ _template = "one"
 _template = "one"
 dbname = ""
 
-[database.six]
+[database.four]
 _template = "two"
 dbname = ":memory:"
+
+[database.five]
+_template = "three"
