@@ -43,3 +43,11 @@ format_toml_key <- function(x) {
   x[!matched] <- format_toml(x[!matched])
   x
 }
+
+format_toml.dbiconf_loader <- function(x) {
+  format_toml(rlang::set_names(list(unclass(x)), attr(x, "type")))
+}
+
+format_toml.dbiconf_loader_wrapper <- function(x) {
+  format_toml(attr(x, "loader"))
+}

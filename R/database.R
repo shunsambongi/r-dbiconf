@@ -30,13 +30,13 @@ methods::setMethod("show", "dbiconf_database", function(object) {
   }
   nms <- rlang::names2(args)
   vals <- purrr::map(args, function(arg) {
-    if (is.logical(arg)) {
-      tolower(as.character(arg))
-    } else if (is_loader(arg)) {
-      format(arg)
-    } else {
-      rlang::as_label(arg)
+    out <- format_toml(arg)
+    template <- attr(arg, "template", exact = TRUE)
+    if (!is.null(template)) {
+      template <- format_toml_key(template)
+      out <- paste(out, crayon::silver(sprintf("[template.%s]", template)))
     }
+    out
   })
   cat(paste0(nms, " = ", vals, collapse = "\n"))
 })

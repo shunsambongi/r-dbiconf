@@ -23,8 +23,7 @@ is_loader <- function(x) {
 
 #' @export
 format.dbiconf_loader <- function(x, ...) {
-  # sprintf("<loader: %s>", attr(x, "type"))
-  format_toml(rlang::set_names(list(unclass(x)), attr(x, "type")))
+  sprintf("<loader: %s>", attr(x, "type"))
 }
 
 #' @export

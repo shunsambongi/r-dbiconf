@@ -18,7 +18,16 @@ read_databases <- function(file, ...) {
 }
 
 read_config <- function(file) {
-  RcppTOML::parseTOML(input = file, fromFile = TRUE, escape = FALSE)
+  out <- RcppTOML::parseTOML(input = file, fromFile = TRUE, escape = FALSE)
+  if (rlang::has_name(out, "template")) {
+    out$template <- purrr::imap(out$template, function(template, name) {
+      purrr::map(template, function(template) {
+        attr(template, "template") <- name
+        template
+      })
+    })
+  }
+  out
 }
 
 validate_config <- function(config, validator = create_validator()) {
