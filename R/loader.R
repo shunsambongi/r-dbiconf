@@ -1,9 +1,8 @@
 loader_types <- c("envvar", "file", "keyring", "interactive")
 
 new_loader <- function(loader, name) {
-  type <- rlang::arg_match0(
-    rlang::names2(loader), values = loader_types, arg_nm = "loader_type"
-  )
+  stopifnot(is_named_list(loader) && length(loader) == 1L)
+  type <- rlang::names2(loader)
   value <- loader[[type]]
   class = c(paste0("dbiconf_loader_", type), "dbiconf_loader")
   structure(
@@ -18,7 +17,7 @@ new_loader <- function(loader, name) {
 new_loader_wrapper <- function(loader, name) {
   loader <- new_loader(loader, name)
   wrapper <- function() {
-    load_arg(loader)
+    loader_resolve(loader)
   }
   structure(
     wrapper,
@@ -30,6 +29,13 @@ new_loader_wrapper <- function(loader, name) {
 
 is_loader <- function(x) {
   inherits(x, "dbiconf_loader")
+}
+
+is_zap_loader <- function(x) {
+  if (inherits(x, "dbiconf_loader_wrapper")) {
+    x <- attr(x, "loader")
+  }
+  inherits(x, "dbiconf_loader_zap")
 }
 
 #' @export
@@ -48,15 +54,23 @@ print.dbiconf_loader <- function(x, ...) {
   invisible(x)
 }
 
-load_arg <- function(loader) {
-  UseMethod("load_arg")
+#' @export
+print.dbiconf_loader_wrapper <- function(x, ...) {
+  cat(sprintf("<dbiconf_loader_wrapper>\n%s", format(x)), "\n", sep = "")
+  invisible(x)
 }
 
-load_arg_ <- function(loader) {
-  load_arg(loader)
+#' Resolve loader value
+#'
+#' @param loader Loader object (dbiconf_loader) which will be resolved into an
+#'   object.
+#'
+#' @export
+loader_resolve <- function(loader) {
+  UseMethod("loader_resolve")
 }
 
-load_arg_default <- function(loader, fn) {
+loader_resolve_default <- function(loader, fn) {
   if (rlang::is_string(loader)) {
     fn(loader)
   } else {

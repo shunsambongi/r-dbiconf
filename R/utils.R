@@ -19,3 +19,7 @@ rstudioapi_is_available <- function() {
 named_list <- function() {
   rlang::set_names(list(), character())
 }
+
+is_named_list <- function(x) {
+  is.list(x) && rlang::is_named(x)
+}

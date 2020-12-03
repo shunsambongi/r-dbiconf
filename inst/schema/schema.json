@@ -43,12 +43,12 @@
       "type": "object",
       "maxProperties": 1,
       "minProperties": 1,
-      "additionalProperties": false,
       "properties": {
         "envvar": { "$ref": "#/definitions/loaderEnvvar" },
         "file": { "$ref": "#/definitions/loaderFile" },
         "interactive": { "$ref": "#/definitions/loaderInteractive" },
-        "keyring": { "$ref": "#/definitions/loaderKeyring" }
+        "keyring": { "$ref": "#/definitions/loaderKeyring" },
+        "zap": { "$ref": "#/definitions/loaderZap" }
       }
     },
 
@@ -95,7 +95,7 @@
         }
       ]
     },
-    
+
     "loaderKeyring": {
       "oneOf": [
         { "$ref": "#/definitions/nonEmptyString" },
@@ -112,8 +112,12 @@
       ]
     },
 
+    "loaderZap": {
+      "const": true
+    },
+
     "nonEmptyString": {
-      "type": "string", 
+      "type": "string",
       "minLength": 1
     }
   }

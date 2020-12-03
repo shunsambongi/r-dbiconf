@@ -44,11 +44,11 @@ merge_params <- function(database, template) {
 get_conn_args <- function(database) {
   database[["_template"]] <- rlang::zap()
   database[["_driver"]] <- rlang::zap()
-  args <- purrr::discard(database, rlang::is_zap)
-  purrr::imap(args, function(arg, name) {
-    if (!is.list(arg)) {
+  args <- purrr::imap(database, function(arg, name) {
+    if (!rlang::is_bare_list(arg)) {
       return(arg)
     }
     new_loader_wrapper(arg, name)
   })
+  purrr::discard(args, ~rlang::is_zap(.x) || is_zap_loader(.x))
 }

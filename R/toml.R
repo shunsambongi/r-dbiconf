@@ -10,12 +10,20 @@ format_toml.character <- function(x) {
   purrr::map_chr(x, rlang::as_label)
 }
 
-format_toml.integer <- function(x) {
-  as.character(x)
+format_toml.numeric <- function(x) {
+  format_toml_vec(as.character(x))
 }
 
 format_toml.logical <- function(x) {
-  tolower(as.character(x))
+  format_toml_vec(tolower(as.character(x)))
+}
+
+format_toml.Date <- function(x) {
+  format_toml_vec(as.character(x))
+}
+
+format_toml.POSIXct <- function(x) {
+  format_toml_vec(as.character(x))
 }
 
 format_toml.list <- function(x) {
@@ -26,6 +34,10 @@ format_toml.list <- function(x) {
     x <- format_toml_array(x)
   }
   x
+}
+
+format_toml_vec <- function(x) {
+  if (rlang::is_scalar_vector(x)) x else format_toml_array(x)
 }
 
 format_toml_array <- function(x) {

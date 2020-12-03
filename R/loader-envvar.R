@@ -1,5 +1,6 @@
-load_arg.dbiconf_loader_envvar <- function(loader) {
-  out <- load_arg_default(loader, Sys.getenv)
+#' @export
+loader_resolve.dbiconf_loader_envvar <- function(loader) {
+  out <- loader_resolve_default(loader, Sys.getenv)
   if (identical(out, "")) {
     envvar <- if (rlang::is_string(loader)) {
       loader

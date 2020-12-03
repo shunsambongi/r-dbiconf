@@ -1,3 +1,9 @@
+# dbiconf 0.2.0
+
+* New `zap` loader which removes the specified parameter.
+* Exported `loader_resolve()` S3 generic for allowing custom loader extensions.
+* Updated `loaders` vignette with instructions for implementing custom loaders.
+
 # dbiconf 0.1.2
 
 * New `loaders` vignette.

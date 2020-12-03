@@ -2,7 +2,13 @@
 
 S3method(format,dbiconf_loader)
 S3method(format,dbiconf_loader_wrapper)
+S3method(loader_resolve,dbiconf_loader_envvar)
+S3method(loader_resolve,dbiconf_loader_file)
+S3method(loader_resolve,dbiconf_loader_interactive)
+S3method(loader_resolve,dbiconf_loader_keyring)
 S3method(print,dbiconf_loader)
+S3method(print,dbiconf_loader_wrapper)
+export(loader_resolve)
 export(read_databases)
 import(DBI)
 import(methods)

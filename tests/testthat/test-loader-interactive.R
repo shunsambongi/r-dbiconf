@@ -7,10 +7,10 @@ test_that("interactive loader works when value is TRUE", {
 
   m <- mock("secret")
   mockr::with_mock(
-    load_arg_interactive_secret = m,
-    load_arg_interactive_rstudio = function(...) "bad rstudio",
-    load_arg_interactive_readline = function(...) "bad readline",
-    arg <- load_arg(loader)
+    loader_resolve_interactive_secret = m,
+    loader_resolve_interactive_rstudio = function(...) "bad rstudio",
+    loader_resolve_interactive_readline = function(...) "bad readline",
+    arg <- loader_resolve(loader)
   )
 
   expect_called(m, 1L)
@@ -23,11 +23,11 @@ test_that("interactive loader works with rstudioapi", {
 
   m <- mock("rstudio")
   mockr::with_mock(
-    load_arg_interactive_secret = function(...) "bad secret",
-    load_arg_interactive_rstudio = m,
-    load_arg_interactive_readline = function(...) "bad readline",
+    loader_resolve_interactive_secret = function(...) "bad secret",
+    loader_resolve_interactive_rstudio = m,
+    loader_resolve_interactive_readline = function(...) "bad readline",
     rstudioapi_is_available = function() TRUE,
-    arg <- load_arg(loader)
+    arg <- loader_resolve(loader)
   )
 
   expect_called(m, 1L)
@@ -41,11 +41,11 @@ test_that("interactive loader works without rstudioapi", {
 
   m <- mock("readline")
   mockr::with_mock(
-    load_arg_interactive_secret = function(...) "bad secret",
-    load_arg_interactive_rstudio = function(...) "bad rstudio",
-    load_arg_interactive_readline = m,
+    loader_resolve_interactive_secret = function(...) "bad secret",
+    loader_resolve_interactive_rstudio = function(...) "bad rstudio",
+    loader_resolve_interactive_readline = m,
     rstudioapi_is_available = function() FALSE,
-    arg <- load_arg(loader)
+    arg <- loader_resolve(loader)
   )
 
   expect_called(m, 1L)
