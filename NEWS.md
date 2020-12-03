@@ -1,3 +1,5 @@
+# dbiconf 0.1.2
+
 # dbiconf 0.1.1
 
 * Add more colors to output.
