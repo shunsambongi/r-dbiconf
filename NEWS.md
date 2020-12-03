@@ -1,5 +1,7 @@
 # dbiconf 0.1.2
 
+* New `loaders` vignette.
+
 # dbiconf 0.1.1
 
 * Add more colors to output.

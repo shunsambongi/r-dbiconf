@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 Database parameters can be configured to dynamically obtain its value at connection-time using "loaders". For example, a database might look like:
 
-``` toml
+```toml
 [database.EXAMPLE]
 _driver = "RSQLite::SQLite"
 dbname = { interactive = true }
@@ -34,7 +34,7 @@ When specifying an interactive loader, it should have a single key `interactive`
 
 1. the value `true`
 
-   ``` toml
+   ```toml
    param = { interactive = true }
    ```
 
@@ -43,7 +43,7 @@ When specifying an interactive loader, it should have a single key `interactive`
    - `prompt` - an optional string indicating the prompt message
    - `secret` - an optional boolean indicating whether the prompt should be secret or not.
    
-   ``` toml
+   ```toml
    param1 = { interactive = { prompt = "Enter your email", secret = false } }
    ```
 
@@ -56,7 +56,7 @@ An environment variable loader should have a single key `envvar`. The value of `
 
 1. a non-empty string specifying the environment variable to read from
 
-   ``` toml
+   ```toml
    param = { envvar = "MY_SECRET_VALUE" }
    ```
 
@@ -65,7 +65,7 @@ An environment variable loader should have a single key `envvar`. The value of `
    - `x` - a required non-empty string specifying the environment variable to read from
    - `unset` - an optional non-empty string specifying the default value to use if the environment variable is unset
    
-   ``` toml
+   ```toml
    param = { envvar = { x = "MY_SECRET_VALUE", unset = "default value" } }
    ```
    
@@ -78,7 +78,7 @@ A file loader should have a single key `file`. The value of `file` should be one
 
 1. a non-empty string specifying the path to the file to read from
    
-   ``` toml
+   ```toml
    param = { file = "my-secret.txt" } 
    ```
    
@@ -87,7 +87,7 @@ A file loader should have a single key `file`. The value of `file` should be one
    - `path` - a required non-empty string specifying the path to the file to read from 
    - `trim` - an optional boolean specifying whether the content should be trimmed of whitespace (default: `true`)
    
-   ``` toml
+   ```toml
    param = { file = { path = "my-secret.txt", trim = false } }
    ```
 
@@ -100,7 +100,7 @@ A keyring loader should have a single key `keyring`. The value of `keyring` shou
 
 1. a non-empty string specifying the service to obtain the value from (see `?keyring::key_get`)
    
-   ``` toml
+   ```toml
    param = { keyring = "my-password" }
    ```
    
@@ -112,6 +112,6 @@ A keyring loader should have a single key `keyring`. The value of `keyring` shou
    
    See `?keyring::key_get` for more information about these parameters.
    
-   ``` toml
+   ```toml
    param = { keyring = { service = "my-password", username = "my-username", keyring = "my-keyring" } } 
    ```
