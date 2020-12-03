@@ -26,10 +26,14 @@ Suggests:
     brio,
     fs,
     keyring,
+    knitr,
     mockery,
     mockr,
+    rmarkdown,
     rstudioapi,
     testthat
+VignetteBuilder:
+    knitr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

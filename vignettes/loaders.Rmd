@@ -1,0 +1,117 @@
+---
+title: "Loaders"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Loaders}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Database parameters can be configured to dynamically obtain its value at connection-time using "loaders". For example, a database might look like:
+
+``` toml
+[database.EXAMPLE]
+_driver = "RSQLite::SQLite"
+dbname = { interactive = true }
+```
+
+In this case, the `dbname` parameter is a loader, and the value will be obtained from the user interactively when creating a connection using `dbConnect()`. Loaders are usually specified using [inline tables](https://toml.io/en/v1.0.0-rc.3#inline-table), but standard [tables](https://toml.io/en/v1.0.0-rc.3#table) are also fine. 
+
+There are a few different type of loaders, which are explained below.
+
+## Interactive loader
+
+The interactive loader will show an interactive prompt at connection-time for the user to type the parameter value. The value obtained from the prompt can be specified as being a secret or not. If the value is secret, the prompt will mask the value as it is being typed, otherwise the value will be plainly visible. By default the prompt will be secret.
+
+When specifying an interactive loader, it should have a single key `interactive`. The value of `interactive` should be one of the following:
+
+1. the value `true`
+
+   ``` toml
+   param = { interactive = true }
+   ```
+
+2. a table with the following keys:
+
+   - `prompt` - an optional string indicating the prompt message
+   - `secret` - an optional boolean indicating whether the prompt should be secret or not.
+   
+   ``` toml
+   param1 = { interactive = { prompt = "Enter your email", secret = false } }
+   ```
+
+
+## Environment variable loader
+
+The environment variable loader can dynamically obtain parameter values from an environment variable.
+
+An environment variable loader should have a single key `envvar`. The value of `envvar` should be one of the following:
+
+1. a non-empty string specifying the environment variable to read from
+
+   ``` toml
+   param = { envvar = "MY_SECRET_VALUE" }
+   ```
+
+2. a table with the following keys:
+
+   - `x` - a required non-empty string specifying the environment variable to read from
+   - `unset` - an optional non-empty string specifying the default value to use if the environment variable is unset
+   
+   ``` toml
+   param = { envvar = { x = "MY_SECRET_VALUE", unset = "default value" } }
+   ```
+   
+   
+## File loader
+
+A file loader will read a file, and use the content as the parameter value. You can also specify whether any whitespace surrounding the content should be trimmed or not, e.g. a trailing newline.
+
+A file loader should have a single key `file`. The value of `file` should be one of the following:
+
+1. a non-empty string specifying the path to the file to read from
+   
+   ``` toml
+   param = { file = "my-secret.txt" } 
+   ```
+   
+2. a table with the following keys:
+   
+   - `path` - a required non-empty string specifying the path to the file to read from 
+   - `trim` - an optional boolean specifying whether the content should be trimmed of whitespace (default: `true`)
+   
+   ``` toml
+   param = { file = { path = "my-secret.txt", trim = false } }
+   ```
+
+
+## Keyring loader
+
+A keyring loader uses the [keyring](https://github.com/r-lib/keyring) package to read values from the OS system credential store.
+
+A keyring loader should have a single key `keyring`. The value of `keyring` should be one of the following:
+
+1. a non-empty string specifying the service to obtain the value from (see `?keyring::key_get`)
+   
+   ``` toml
+   param = { keyring = "my-password" }
+   ```
+   
+2. a table with the following keys:
+   
+   - `service` - a required non-empty string specifying the service to obtain the value from
+   - `username` - an optional string specifying the `username` passed `keyring::key_get()`
+   - `keyring` - an optional string specifying the `keyring` passed `keyring::key_get()`
+   
+   See `?keyring::key_get` for more information about these parameters.
+   
+   ``` toml
+   param = { keyring = { service = "my-password", username = "my-username", keyring = "my-keyring" } } 
+   ```
