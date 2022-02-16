@@ -1,5 +1,5 @@
 parse_database <- function(database, name, templates) {
-  tryCatch(rlang::with_abort({
+  tryCatch({
     template <- get_template(database, templates)
     database <- merge_params(database, template)
     driver <- get_driver(database)
@@ -7,11 +7,14 @@ parse_database <- function(database, name, templates) {
     methods::new(
       "dbiconf_database", .name = name, .drv = driver, .conn_args = conn_args
     )
-  }), error = function(e) {
+  }, error = function(e) {
     message <- paste0(
       "Error while parsing database: `", name, "`\n", conditionMessage(e)
     )
-    rlang::abort(message, "dbiconf_parse_error", parent = e, trace = e$trace)
+    rlang::abort(
+      message, "dbiconf_parse_error",
+      parent = NA, call = conditionCall(e), trace = e$trace
+    )
   })
 }
 

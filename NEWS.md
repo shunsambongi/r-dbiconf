@@ -1,3 +1,7 @@
+# dbiconf 0.2.1
+
+* Compatibility with rlang>=v1.0.0. (#1)
+
 # dbiconf 0.2.0
 
 * New `zap` loader which removes the specified parameter.
